@@ -16,6 +16,6 @@ Select HM.ANON_ID, HM.label,
 from Heme_stamp.Heme_stamp_data as HM
   LEFT JOIN DM 
   ON (HM.ANON_ID=DM.rit_uid)
+GROUP BY HM.ANON_ID, HM.label,gender_bool, age
 
 )
-
