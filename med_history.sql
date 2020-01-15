@@ -66,7 +66,7 @@ HOR_MED as
   from Heme_stamp.Heme_stamp_data as HM 
   Left join OM
   ON OM.jc_uid = HM.ANON_ID
-  WHERE OM.med_description like '%HORMONES%'
+  WHERE OM.thera_class_name like '%HORMONES%'
   AND CAST(OM.end_time_jittered as DATETIME) <  DATETIME_SUB( CAST(HM.date_collected_jit as DATETIME), INTERVAL 30 DAY) 
   GROUP by HM.ANON_ID
 )
@@ -87,7 +87,3 @@ from Heme_stamp.Heme_stamp_data as HM
 
 )
 
-
-
-  --(case when DM.gender='Male' then 0 else 1 end) as gender_bool, 
-  --DATETIME_DIFF( CAST(HM.date_collected_jit as DATETIME) ,CAST( DM.birth_date_jittered as DATETIME), YEAR) as age
