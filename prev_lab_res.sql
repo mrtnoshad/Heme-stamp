@@ -46,7 +46,46 @@ PLT as
   GROUP by HM.ANON_ID
 ),
 
--- Define PLT_history
+-- Define FER_history
+FER as
+(select HM.ANON_ID, 
+  (CASE WHEN count(*)>0 THEN 1 ELSE 0 END) as lab_abn_FER
+  from Heme_stamp.Heme_stamp_data as HM 
+  Left join LR
+  ON LR.rit_uid = HM.ANON_ID
+  WHERE lab_name like '%Ferritin%'
+  AND LR.result_flag is not null
+  AND CAST(LR.result_time_jittered as DATETIME) <  DATETIME_SUB( CAST(HM.date_collected_jit as DATETIME), INTERVAL 10 DAY) 
+  GROUP by HM.ANON_ID
+),
+
+-- Define RBC_history
+RBC as
+(select HM.ANON_ID, 
+  (CASE WHEN count(*)>0 THEN 1 ELSE 0 END) as lab_abn_RBC
+  from Heme_stamp.Heme_stamp_data as HM 
+  Left join LR
+  ON LR.rit_uid = HM.ANON_ID
+  WHERE lab_name like '%RBC%'
+  AND LR.result_flag is not null
+  AND CAST(LR.result_time_jittered as DATETIME) <  DATETIME_SUB( CAST(HM.date_collected_jit as DATETIME), INTERVAL 10 DAY) 
+  GROUP by HM.ANON_ID
+),
+
+-- Define RET_history
+RET as
+(select HM.ANON_ID, 
+  (CASE WHEN count(*)>0 THEN 1 ELSE 0 END) as lab_abn_RET
+  from Heme_stamp.Heme_stamp_data as HM 
+  Left join LR
+  ON LR.rit_uid = HM.ANON_ID
+  WHERE lab_name like '%Reticulocyte%'
+  AND LR.result_flag is not null
+  AND CAST(LR.result_time_jittered as DATETIME) <  DATETIME_SUB( CAST(HM.date_collected_jit as DATETIME), INTERVAL 10 DAY) 
+  GROUP by HM.ANON_ID
+),
+
+-- Define NTR_history
 NTR as
 (select HM.ANON_ID, 
   (CASE WHEN count(*)>0 THEN 1 ELSE 0 END) as lab_abn_NTR
@@ -63,6 +102,9 @@ Select HM.ANON_ID, HM.label,
   (case when WBC.lab_abn_WBC=1 then 1 else 0 end) as lab_abn_WBC_bool,
   (case when HMG.lab_abn_HMG=1 then 1 else 0 end) as lab_abn_HMG_bool,
   (case when PLT.lab_abn_PLT=1 then 1 else 0 end) as lab_abn_PLT_bool,
+  (case when FER.lab_abn_FER=1 then 1 else 0 end) as lab_abn_FER_bool,
+  (case when RBC.lab_abn_RBC=1 then 1 else 0 end) as lab_abn_RBC_bool,
+  (case when RET.lab_abn_RET=1 then 1 else 0 end) as lab_abn_RET_bool,
   (case when NTR.lab_abn_NTR=1 then 1 else 0 end) as lab_abn_NTR_bool
   
 from Heme_stamp.Heme_stamp_data as HM
@@ -70,7 +112,9 @@ from Heme_stamp.Heme_stamp_data as HM
   LEFt JOIN HMG USING (ANON_ID)
   LEFT JOIN PLT USING (ANON_ID)
   LEFT JOIN NTR USING (ANON_ID)
+  LEFT JOIN FER USING (ANON_ID)
+  LEFT JOIN RBC USING (ANON_ID)
+  LEFT JOIN RET USING (ANON_ID)
 
   
 )
-
