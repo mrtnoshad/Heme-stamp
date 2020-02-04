@@ -12,12 +12,15 @@ DX_Hist as
 
 SELECT HM.ANON_ID, HM.label,
   max(case when (DX_Hist.dx_name like '%chemotherapy%') then 1 else 0 end) as chemo_dx_hist,
+  max(case when (DX_Hist.dx_name like '%Other long term (current) drug therapy%') then 1 else 0 end) as other_long_therapy_dx_hist,
   max(case when (DX_Hist.dx_name like '%MDS%') then 1 else 0 end) as MDS_dx_hist,
+  max(case when (DX_Hist.dx_name like '%Thrombocytopenia%') then 1 else 0 end) as Thrombocytopenia_dx_hist,
+  max(case when (DX_Hist.dx_name like '%Neoplasm%') then 1 else 0 end) as Neoplasm_dx_hist,
+  max(case when (DX_Hist.dx_name like '%skin eruption%') then 1 else 0 end) as skin_eruption_dx_hist,
   max(case when (DX_Hist.dx_name like '%Sezary%') then 1 else 0 end) as Sezary_dx_hist,
   max(case when (DX_Hist.dx_name like '%myelodysplastic%') then 1 else 0 end) as myelodysplastic_dx_hist,
   max(case when (DX_Hist.dx_name like '%hypertension%') then 1 else 0 end) as hypertension_dx_hist,
   max(case when (DX_Hist.dx_name like '%Myelofibrosis%') then 1 else 0 end) as Myelofibrosis_dx_hist,
-  max(case when (DX_Hist.dx_name like '%neoplasm%') then 1 else 0 end) as neoplasm_dx_hist, --Secondary malignant neoplasm of bone
   max(case when (DX_Hist.dx_name like '%Mycosis%') then 1 else 0 end) as Mycosis_dx_hist
   
   
