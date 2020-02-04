@@ -12,6 +12,7 @@ DX_Hist as
 
 SELECT HM.ANON_ID, HM.label,
   max(case when (DX_Hist.dx_name like '%chemotherapy%') then 1 else 0 end) as chemo_dx_hist,
+  max(case when (DX_Hist.dx_name like '%MDS%') then 1 else 0 end) as MDS_dx_hist,
   max(case when (DX_Hist.dx_name like '%Sezary%') then 1 else 0 end) as Sezary_dx_hist,
   max(case when (DX_Hist.dx_name like '%myelodysplastic%') then 1 else 0 end) as myelodysplastic_dx_hist,
   max(case when (DX_Hist.dx_name like '%hypertension%') then 1 else 0 end) as hypertension_dx_hist,
